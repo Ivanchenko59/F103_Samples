@@ -1,0 +1,9 @@
+.\objects\oled_mono_128x64.o: Code\src\OLED_Mono_128x64.c
+.\objects\oled_mono_128x64.o: .\Code\inc\OLED_Mono_128x64.h
+.\objects\oled_mono_128x64.o: D:\Programs\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\oled_mono_128x64.o: .\CMSIS\inc\stm32f10x.h
+.\objects\oled_mono_128x64.o: .\CMSIS\inc\core_cm3.h
+.\objects\oled_mono_128x64.o: .\CMSIS\inc\system_stm32f10x.h
+.\objects\oled_mono_128x64.o: .\Code\inc\OLED_Mono_128x64.h
+.\objects\oled_mono_128x64.o: .\Code\inc\I2C.h
+.\objects\oled_mono_128x64.o: .\Code\inc\I2C.h
