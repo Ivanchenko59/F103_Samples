@@ -1,0 +1,19 @@
+Dependencies for Project 'TMR4_init', Target 'Target 1': (DO NOT MODIFY !)
+CompilerVersion: 5060960::V5.06 update 7 (build 960)::.\ARMCC
+F (.\Startup\startup_stm32f10x_md.s)(0x4D789132)(--cpu Cortex-M3 --pd "__EVAL SETA 1" -g --apcs=interwork -IC:\Users\ivanc\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-ID:\Programs\Keil_v5\ARM\CMSIS\Include--pd "__UVISION_VERSION SETA 533" --pd "STM32F10X_MD SETA 1"--list .\listings\startup_stm32f10x_md.lst --xref -o .\objects\startup_stm32f10x_md.o --depend .\objects\startup_stm32f10x_md.d)
+F (.\CMSIS\src\core_cm3.c)(0x4C0CACDE)(-c --cpu Cortex-M3 -D__EVAL -g -O0 --apcs=interwork --split_sections -I ..\TMR4_init -I .\CMSIS\inc -I .\Code\inc-IC:\Users\ivanc\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-ID:\Programs\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DSTM32F10X_MD-o .\objects\core_cm3.o --omf_browse .\objects\core_cm3.crf --depend .\objects\core_cm3.d)
+I (D:\Programs\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E8312)
+F (.\CMSIS\src\system_stm32f10x.c)(0x60548C81)(-c --cpu Cortex-M3 -D__EVAL -g -O0 --apcs=interwork --split_sections -I ..\TMR4_init -I .\CMSIS\inc -I .\Code\inc-IC:\Users\ivanc\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-ID:\Programs\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DSTM32F10X_MD-o .\objects\system_stm32f10x.o --omf_browse .\objects\system_stm32f10x.crf --depend .\objects\system_stm32f10x.d)
+I (.\CMSIS\inc\stm32f10x.h)(0x60785667)
+I (.\CMSIS\inc\core_cm3.h)(0x4D528FB8)
+I (D:\Programs\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E8312)
+I (.\CMSIS\inc\system_stm32f10x.h)(0x4D78910A)
+F (.\Code\src\main.c)(0x60F80D14)(-c --cpu Cortex-M3 -D__EVAL -g -O0 --apcs=interwork --split_sections -I ..\TMR4_init -I .\CMSIS\inc -I .\Code\inc-IC:\Users\ivanc\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-ID:\Programs\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DSTM32F10X_MD-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+I (.\Code\inc\main.h)(0x60F80BF0)
+I (D:\Programs\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E8E8312)
+I (D:\Programs\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5E8E8312)
+I (D:\Programs\Keil_v5\ARM\ARMCC\include\string.h)(0x5E8E8312)
+I (.\CMSIS\inc\stm32f10x.h)(0x60785667)
+I (.\CMSIS\inc\core_cm3.h)(0x4D528FB8)
+I (D:\Programs\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E8312)
+I (.\CMSIS\inc\system_stm32f10x.h)(0x4D78910A)

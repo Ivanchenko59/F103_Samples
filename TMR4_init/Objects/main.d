@@ -1,0 +1,9 @@
+.\objects\main.o: Code\src\main.c
+.\objects\main.o: .\Code\inc\main.h
+.\objects\main.o: D:\Programs\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\main.o: D:\Programs\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\main.o: D:\Programs\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\main.o: .\CMSIS\inc\stm32f10x.h
+.\objects\main.o: .\CMSIS\inc\core_cm3.h
+.\objects\main.o: D:\Programs\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\main.o: .\CMSIS\inc\system_stm32f10x.h
