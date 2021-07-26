@@ -1,6 +1,6 @@
-.\objects\led.o: led.c
-.\objects\led.o: led.h
-.\objects\led.o: main.h
+.\objects\led.o: code\src\led.c
+.\objects\led.o: .\code\inc\led.h
+.\objects\led.o: .\code\inc\main.h
 .\objects\led.o: C:\Users\ivanc\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include\stm32f10x.h
 .\objects\led.o: .\RTE\_Target_1\RTE_Components.h
 .\objects\led.o: C:\Users\ivanc\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\core_cm3.h
