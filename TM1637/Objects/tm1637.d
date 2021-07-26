@@ -1,0 +1,11 @@
+.\objects\tm1637.o: code\src\tm1637.c
+.\objects\tm1637.o: .\code\inc\tm1637.h
+.\objects\tm1637.o: .\code\inc\main.h
+.\objects\tm1637.o: C:\Users\ivanc\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include\stm32f10x.h
+.\objects\tm1637.o: .\RTE\_Target_1\RTE_Components.h
+.\objects\tm1637.o: C:\Users\ivanc\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\core_cm3.h
+.\objects\tm1637.o: D:\Programs\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\tm1637.o: C:\Users\ivanc\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\cmsis_version.h
+.\objects\tm1637.o: C:\Users\ivanc\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\cmsis_compiler.h
+.\objects\tm1637.o: C:\Users\ivanc\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\cmsis_armcc.h
+.\objects\tm1637.o: C:\Users\ivanc\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include\system_stm32f10x.h
