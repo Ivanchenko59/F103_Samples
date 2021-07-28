@@ -1,0 +1,43 @@
+#include "leds.h"
+#include "tim.h"
+
+void LEDS_gpio_init(void)
+{
+	RCC->APB2ENR |= RCC_APB2ENR_IOPAEN |RCC_APB2ENR_IOPBEN;	
+	
+	GPIOA->CRL |= GPIO_CRL_MODE4_0 | GPIO_CRL_MODE5_0 | GPIO_CRL_MODE6_0;
+	
+	GPIOA->CRL &= ~(GPIO_CRL_CNF4 | GPIO_CRL_CNF5 | GPIO_CRL_CNF6
+					| GPIO_CRL_MODE4_1 | GPIO_CRL_MODE5_1 | GPIO_CRL_MODE6_1);
+	
+	GPIOB->CRH |= GPIO_CRH_MODE8_0 | GPIO_CRH_MODE9_0 | GPIO_CRH_MODE10_0 | GPIO_CRH_MODE11_0
+				| GPIO_CRH_MODE12_0 | GPIO_CRH_MODE13_0 | GPIO_CRH_MODE14_0 | GPIO_CRH_MODE15_0;
+	
+	GPIOB->CRH &= ~(GPIO_CRH_CNF8 | GPIO_CRH_CNF9 | GPIO_CRH_CNF10 | GPIO_CRH_CNF11 
+					| GPIO_CRH_CNF12 | GPIO_CRH_CNF13 | GPIO_CRH_CNF15
+					| GPIO_CRH_MODE8_1 | GPIO_CRH_MODE9_1 | GPIO_CRH_MODE10_1 | GPIO_CRH_MODE11_1
+					| GPIO_CRH_MODE12_1 | GPIO_CRH_MODE13_1 | GPIO_CRH_MODE14_1 | GPIO_CRH_MODE15_1);
+
+	
+	GPIOA->ODR |= GPIO_ODR_ODR4;
+	GPIOB->ODR = ~0;
+}
+
+void writeDigits(uint8_t digitsData[4])
+{
+	GPIOA->ODR &= ~(GPIO_ODR_ODR5 | GPIO_ODR_ODR6);
+	digitsData[0] = digitsToSegment[digitsData[0]];
+	GPIOB->ODR = ~(digitsData[0] << 8);
+	GPIOA->ODR |= GPIO_ODR_ODR4;
+	_msDelay(10);
+	GPIOA->ODR &= ~(GPIO_ODR_ODR4 | GPIO_ODR_ODR6);
+	digitsData[1] = digitsToSegment[digitsData[1]];
+	GPIOB->ODR = ~(digitsData[1] << 8);
+	GPIOA->ODR |= GPIO_ODR_ODR5;
+	_msDelay(10);
+	GPIOA->ODR &= ~(GPIO_ODR_ODR4 | GPIO_ODR_ODR5);
+	digitsData[2] = digitsToSegment[digitsData[2]];
+	GPIOB->ODR = ~(digitsData[2] << 8);
+	GPIOA->ODR |= GPIO_ODR_ODR6;
+	_msDelay(10);
+}
