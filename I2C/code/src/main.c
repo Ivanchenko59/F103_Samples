@@ -3,6 +3,8 @@
 
 #define ADDRESS (0x3F << 1)
 
+char *data = "Hello";
+
 volatile uint32_t sys_tick = 0;
 
 int main(void)
@@ -28,6 +30,9 @@ int main(void)
 			GPIOC->ODR |= GPIO_ODR_ODR13;
 		}
 		
+//		i2c_I2C1_masterTransmit(ADDRESS, (uint8_t*)data, 5, 100);
+//		
+//		for (uint32_t i = 0; i < 1e5; i++);
 	}
 }
 

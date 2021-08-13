@@ -90,9 +90,186 @@ uint8_t i2c_I2C1_isSlaveAdressExist(uint8_t addrs, uint32_t timeout)
 /**
 *@brief I2C Transmit (Master)
 */
-uint8_t i2c_I2C1_masterTransmit(uint8_t addrs, uint8_t *pData, uint8_t len, uint32_t timeout);
+uint8_t i2c_I2C1_masterTransmit(uint8_t addrs, uint8_t *pData, uint8_t len, uint32_t timeout)
+{
+	//Send Start Condition
+	uint32_t init_ticks = sys_tick;
+	I2C1->CR1 &= ~I2C_CR1_POS;
+	I2C1->CR1 |= I2C_CR1_START;
+	
+	while (!(I2C1->SR1 & I2C_SR1_SB)) {
+		if((sys_tick - init_ticks) > timeout) {
+			return 1;
+		}
+	}
+	//Send Slave Address
+	I2C1->DR = addrs;
+	//Wait for ACK
+	while (!(I2C1->SR1 & I2C_SR1_ADDR)) {
+		if((sys_tick - init_ticks) > timeout) {
+			return 1;
+		}
+	}
+	//Clear Address Flag
+	__IO uint32_t tempRd = I2C1->SR1;
+	tempRd = I2C1->SR2;
+	(void)tempRd;
+	//Send Data
+	uint8_t dataIdx = 0;
+	int8_t data_size = len;
+	while (data_size > 0) {
+		//Check for TX buffer Empty --> Send byte
+		while (!(I2C1->SR1 & I2C_SR1_TXE)) {
+			if((sys_tick - init_ticks) > timeout) {
+				return 1;
+			}
+		}
+		I2C1->DR = pData[dataIdx];
+		dataIdx++;
+		data_size--;
+		//Wait for BTF flag
+		while (!(I2C1->SR1 & I2C_SR1_BTF)) {
+			if((sys_tick - init_ticks) > timeout) {
+				return 1;
+			}
+		}
+	}
+	//Generate Stop Condition
+	I2C1->CR1 |= I2C_CR1_STOP;
+	/* Return 0, everything ok */
+	return 0;
+}
 
 /**
 *@brief I2C Receive (Master)
 */
-uint8_t i2c_I2C1_masterReceive(uint8_t addrs, uint8_t *pData, uint8_t len, uint32_t timeout);
+uint8_t i2c_I2C1_masterReceive(uint8_t addrs, uint8_t *pData, uint8_t len, uint32_t timeout)
+{
+	//Wait for I2C busy
+	uint32_t init_ticks = sys_tick;
+	while ((I2C1->SR1 & I2C_SR2_BUSY)) {
+		if((sys_tick - init_ticks) > timeout) {
+			return 1;
+		}
+	}
+	//Generate Start Condition
+	I2C1->CR1 &= ~I2C_CR1_POS;
+	I2C1->CR1 |= I2C_CR1_ACK;
+	I2C1->CR1 |= I2C_CR1_START;
+	while (!(I2C1->SR1 & I2C_SR1_SB)) {
+		if((sys_tick - init_ticks) > timeout) {
+			return 1;
+		}
+	}
+	//Send Slave Address
+	I2C1->DR = addrs | 0x01;		//Read address
+	//Wait for ACK
+	while (!(I2C1->SR1 & I2C_SR1_ADDR)) {
+		if((sys_tick - init_ticks) > timeout) {
+			return 1;
+		}
+	}
+	//Data Reception scheme
+	if (len == 0) {
+		//Clear ADDRS Flag
+		__IO uint32_t tempRd = I2C1->SR1;
+		tempRd = I2C1->SR2;
+		(void)tempRd;
+		//Generate Stop Condition
+		I2C1->CR1 |= I2C_CR1_STOP;
+		return 1;
+	}
+	else if (len == 1) {
+		//Clear ACK
+		I2C1->CR1 &= ~I2C_CR1_ACK;
+		//Clear ADDRS flag
+		__IO uint32_t tempRd = I2C1->SR1;
+		tempRd = I2C1->SR2;
+		(void)tempRd;
+		//Set Stop bit
+		I2C1->CR1 |= I2C_CR1_STOP;
+	}
+	else if (len == 2) {
+		//Set POS bit
+		I2C1->CR1 |= I2C_CR1_POS;
+		//Clear ADDRS flag
+		__IO uint32_t tempRd = I2C1->SR1;
+		tempRd = I2C1->SR2;
+		(void)tempRd;
+		//Clear ACK
+		I2C1->CR1 &= ~I2C_CR1_ACK;
+		
+	}
+	else {
+		//Clear ADDRS flag
+		__IO uint32_t tempRd = I2C1->SR1;
+		tempRd = I2C1->SR2;
+		(void)tempRd;
+	}
+	
+	//Receive data
+	uint8_t dataIdx = 0;
+	int8_t data_size = len;
+	while (data_size > 0) {
+		if (data_size <= 3) {
+			if (data_size == 1) {
+				//Wait on RXNE
+				while (!(I2C1->SR1 & I2C_SR1_RXNE)) {
+					if((sys_tick - init_ticks) > timeout) {
+						return 1;
+					}
+				}
+				pData[dataIdx] = (uint8_t)I2C1->DR;
+				dataIdx++;
+				data_size--;
+			}
+			else if (data_size == 2) {
+				//Wait on BTF
+				while (!(I2C1->SR1 & I2C_SR1_BTF)) {
+					if((sys_tick - init_ticks) > timeout) {
+						return 1;
+					}
+				}
+				//Generate Stop Condition
+				I2C1->CR1 |= I2C_CR1_STOP;
+				pData[dataIdx] = (uint8_t)I2C1->DR;
+				//Read DR Twice
+				dataIdx++;
+				data_size--;
+				pData[dataIdx] = (uint8_t)I2C1->DR;
+				dataIdx++;
+				data_size--;
+			}
+			else {
+				//Wait on BTF
+				while (!(I2C1->SR1 & I2C_SR1_BTF)) {
+					if((sys_tick - init_ticks) > timeout) {
+						return 1;
+					}
+				}
+				//Clear ACK
+				I2C1->CR1 &= ~I2C_CR1_ACK;
+				//Read Data Twice
+				pData[dataIdx] = (uint8_t)I2C1->DR;
+				dataIdx++;
+				data_size--;
+				pData[dataIdx] = (uint8_t)I2C1->DR;
+				dataIdx++;
+				data_size--;
+				
+			}
+		}
+		else {
+			//Wait on RXNE
+			while (!(I2C1->SR1 & I2C_SR1_RXNE)) {
+				if((sys_tick - init_ticks) > timeout) {
+					return 1;
+				}
+			}
+			pData[dataIdx] = (uint8_t)I2C1->DR;
+			dataIdx++;
+			data_size--;
+		}
+	}
+	return 0;
+}
